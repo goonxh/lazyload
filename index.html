@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>懒加载与木桶布局</title>
+	<script>
+		window.navigator.appVersion.indexOf('Trident') != -1 && alert('请用谷歌或火狐新版打开！');
+	</script>
+	<style type="text/css">
+		*{
+			margin: 0;
+		}
+		body{
+			padding: 50px 0;
+			overflow-x: hidden;
+		}
+		.wrap{
+			display: flex;
+			flex-wrap: wrap;
+		}
+		.wrap img{
+			margin: 3px;
+			padding: 5px;
+			height: 200px;
+			background: #ccc;
+			flex-grow: 1;
+			object-fit: cover;
+			transition: .3s;
+		}
+		.wrap:after{
+			display: block;
+			content: '';
+			flex-grow: 9999;
+		}
+		.wrap img:hover{
+			transform: scale(1.2);
+			box-shadow: 0 0 20px #fff;
+			z-index: 9999;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap"></div>
+	<script src="http://cdnjs.gtimg.com/cdnjs/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>
+		var src = ['http://oy0erm9qb.bkt.clouddn.com/11.jpg','http://oy0erm9qb.bkt.clouddn.com/22.png','http://oy0erm9qb.bkt.clouddn.com/7e948b4dgy1fkkcuh0dexg20hs0a01l2.gif','http://oy0erm9qb.bkt.clouddn.com/11.jpg','http://oy0erm9qb.bkt.clouddn.com/22.png']
+		for(var i=0; i<Math.floor(Math.random()*10+100); i++){
+			$('<img datasrc='+src[Math.floor(Math.random()*5)]+' />').appendTo('.wrap');
+		}
+		</script>
+
+		<script>	
+		$(function(){
+			render();
+			var lock;
+			$(window).on('scroll',function(){
+                if(lock){
+                	clearTimeout(lock);
+                }
+                lock = setTimeout(function(){
+                	render();
+                },500)
+			})
+		})
+		function render(){
+			$('.wrap img').each(function(){
+				if(checkImg($(this)) && !isLoad($(this))){
+					loadImg($(this));
+				}
+			})
+		}
+		function checkImg(value){
+            var scrollLength = $(window).scrollTop(),
+                wimdowHeight = $(window).height(),
+                imgOffset = value.offset().top;
+                if(imgOffset = scrollLength || imgOffset < (scrollLength+wimdowHeight)){
+                	return true;
+                }else{
+                	return false;
+                }
+		}
+		function isLoad(value){
+			return value.attr('src') === value.attr('datasrc');
+		}
+		function loadImg(value){
+            value.attr('src',value.attr('datasrc'));
+		}
+	</script>
+</body>
+</html>
+
