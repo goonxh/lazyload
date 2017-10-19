@@ -76,7 +76,7 @@ setTimeout是为了性能考虑，因为一般滚动一次会触发好几次scro
 
 ## 木桶布局
 实现CSS：
-	```css
+```css
 		*{
 			margin: 0;
 		}
@@ -107,6 +107,7 @@ setTimeout是为了性能考虑，因为一般滚动一次会触发好几次scro
 			box-shadow: 0 0 20px #fff;
 			z-index: 9999;
 		}
-	```
+```
 [代码地址](https://coding.net/u/goonxh/p/lazyload/git/blob/master/index.html)
+
 [预览地址](http://goonxh.coding.me/lazyload/)
